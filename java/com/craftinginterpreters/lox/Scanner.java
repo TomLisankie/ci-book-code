@@ -73,9 +73,9 @@ class Scanner {
 	    case '"': string(); break;
 
 	    default:
-		if isDigit (c) {
+		if (isDigit (c)) {
 		    number ();
-		} else if isAlpha (c) {
+		} else if (isAlpha (c)) {
 		    identifier ();
 		} else {
 		    Lox.error ("Unexpected character.");
