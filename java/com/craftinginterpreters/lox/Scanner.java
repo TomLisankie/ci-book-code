@@ -40,34 +40,34 @@ class Scanner {
 	 
 	char c = advance ();
 	switch (c) {
-	    case "(": addToken (LEFT_PAREN); break;
-	    case ")": addToken (RIGHT_PAREN); break;
-	    case "{": addToken (LEFT_BRACE); break;
-	    case "}": addToken (RIGHT_BRACE); break;
-	    case ",": addToken (COMMA); break;
-	    case ".": addToken (DOT); break;
-	    case "-": addToken (MINUS); break;
-	    case "+": addToken (PLUS); break;
-	    case "*": addToken (STAR); break;
-	    case ";": addToken (SEMICOLON); break;
-	    case "!": addToken (nextCharIs ("=") ? BANG_EQUAL : BANG); break;
-		    case "=": addToken (nextCharIs ("=") ? EQUAL_EQUAL : EQUAL); break;
-	    case "<": addToken (nextCharIs ("=") ? LESS_EQUAL : LESS); break;
-	    case ">": addToken (nextCharIs ("=") ? GREATER_EQUAL : GREATER); break;
-	    case "/":
-		if (nextCharIs ("/")) {
-		    while (peek () != "\n" &&  !isAtEnd ()) {
+	    case '(': addToken (LEFT_PAREN); break;
+	    case ')': addToken (RIGHT_PAREN); break;
+	    case '{': addToken (LEFT_BRACE); break;
+	    case '}': addToken (RIGHT_BRACE); break;
+	    case ',': addToken (COMMA); break;
+	    case '.': addToken (DOT); break;
+	    case '-': addToken (MINUS); break;
+	    case '+': addToken (PLUS); break;
+	    case '*': addToken (STAR); break;
+	    case ';': addToken (SEMICOLON); break;
+	    case '!': addToken (nextCharIs ('=') ? BANG_EQUAL : BANG); break;
+	    case '=': addToken (nextCharIs ('=') ? EQUAL_EQUAL : EQUAL); break;
+	    case '<': addToken (nextCharIs ('=') ? LESS_EQUAL : LESS); break;
+	    case '>': addToken (nextCharIs ('=') ? GREATER_EQUAL : GREATER); break;
+	    case '/':
+		if (nextCharIs ('/')) {
+		    while (peek () != '\n' &&  !isAtEnd ()) {
 			advance();
 		    }
 		} else {
 		    addToken (SLASH);
 		}
 		break;
-	    case " ":
-	    case "\r":
-	    case "\t":
+	    case ' ':
+	    case '\r':
+	    case '\t':
 		break;
-	    case "\n":
+	    case '\n':
 		line++;
 		break;
 	    case '"': string(); break;
@@ -78,7 +78,7 @@ class Scanner {
 		} else if (isAlpha (c)) {
 		    identifier ();
 		} else {
-		    Lox.error ("Unexpected character.");
+		    Lox.error (line, "Unexpected character.");
 		}
 		break;
 	}
@@ -109,7 +109,7 @@ class Scanner {
 
     private char peek () {
 	if (isAtEnd ()) {
-	    return "\0";
+	    return '\0';
 	}
 
 	return source.charAt (current);
@@ -117,12 +117,12 @@ class Scanner {
 
     private void string () {
 	while (peek () != '"' && ! isAtEnd ()) {
-	    if (peek () == "\n") line++;
+	    if (peek () == '\n') line++;
 	    advance ();
 	}
 
 	if (isAtEnd ()) {
-	    Lox.error ("Unterminated string. Close it with a double-quote.");
+	    Lox.error (line, "Unterminated string. Close it with a double-quote.");
 	    return;
 	}
 
@@ -144,7 +144,7 @@ class Scanner {
 	    advance ();
 	}
 
-	if (peek () == "." && isDigit (peekNext ())) {
+	if (peek () == '.' && isDigit (peekNext ())) {
 	    advance ();
 
 	    while (isDigit (peek ())) advance ();
