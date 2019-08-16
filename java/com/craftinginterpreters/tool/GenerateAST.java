@@ -67,12 +67,12 @@ public class GenerateAST {
 	    writer.println ("            this." + fieldName + " = " + fieldName + ";");
 	}
 
+	writer.println("        }");
+
 	writer.println ();
 	writer.println ("        <R> R accept (Visitor <R> visitor) {");
 	writer.println ("            return visitor.visit" + className + baseName + "(this);");
 	writer.println ("        }");
-
-	writer.println("        }");
 
         writer.println("    }");
 	
